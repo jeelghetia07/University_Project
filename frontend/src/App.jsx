@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 
 // Temporary placeholder component for other pages
@@ -15,29 +17,101 @@ const ComingSoon = ({ pageName }) => (
   </div>
 );
 
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = localStorage.getItem('authToken');
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+  
+  return children;
+};
+
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Redirect root to dashboard */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        {/* Public Routes */}
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         
-        {/* Dashboard Routes */}
-        <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-        <Route path="/profile" element={<Layout><ComingSoon pageName="My Profile" /></Layout>} />
-        <Route path="/course-registration" element={<Layout><ComingSoon pageName="Course Registration" /></Layout>} />
-        <Route path="/my-courses" element={<Layout><ComingSoon pageName="My Courses" /></Layout>} />
-        <Route path="/timetable" element={<Layout><ComingSoon pageName="Timetable" /></Layout>} />
-        <Route path="/attendance" element={<Layout><ComingSoon pageName="Attendance" /></Layout>} />
-        <Route path="/grades" element={<Layout><ComingSoon pageName="Grades" /></Layout>} />
-        <Route path="/fees" element={<Layout><ComingSoon pageName="Fees" /></Layout>} />
-        <Route path="/announcements" element={<Layout><ComingSoon pageName="Announcements" /></Layout>} />
-        <Route path="/faculty" element={<Layout><ComingSoon pageName="Faculty Directory" /></Layout>} />
-        <Route path="/library" element={<Layout><ComingSoon pageName="Library" /></Layout>} />
-        <Route path="/exams" element={<Layout><ComingSoon pageName="Exams" /></Layout>} />
-        <Route path="/events" element={<Layout><ComingSoon pageName="Events" /></Layout>} />
-        <Route path="/support" element={<Layout><ComingSoon pageName="Support" /></Layout>} />
-        <Route path="/settings" element={<Layout><ComingSoon pageName="Settings" /></Layout>} />
+        {/* Protected Routes - Require Login */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Layout><Dashboard /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="My Profile" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/course-registration" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Course Registration" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/my-courses" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="My Courses" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/timetable" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Timetable" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/attendance" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Attendance" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/grades" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Grades" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/fees" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Fees" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/announcements" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Announcements" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/faculty" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Faculty Directory" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/library" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Library" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/exams" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Exams" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/events" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Events" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/support" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Support" /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/settings" element={
+          <ProtectedRoute>
+            <Layout><ComingSoon pageName="Settings" /></Layout>
+          </ProtectedRoute>
+        } />
       </Routes>
     </Router>
   );
