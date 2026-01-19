@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, BookOpen, AlertCircle } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,7 +9,27 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
+
+  // Check if user just signed up
+  useEffect(() => {
+    const justSignedUp = localStorage.getItem('justSignedUp');
+    const signupEmail = localStorage.getItem('signupEmail');
+    
+    if (justSignedUp === 'true') {
+      setShowSuccessMessage(true);
+      setEmail(signupEmail || '');
+      
+      // Clear the signup flag
+      localStorage.removeItem('justSignedUp');
+      
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 5000);
+    }
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -34,6 +54,11 @@ const Login = () => {
     }, 1000);
   };
 
+  const handleCreateAccount = () => {
+    // Open signup in new tab
+    window.open('/signup', '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center p-4">
       {/* Background decoration */}
@@ -52,6 +77,21 @@ const Login = () => {
           <h1 className="text-4xl font-bold text-white mb-2">UniPortal</h1>
           <p className="text-indigo-100">Student Portal Login</p>
         </div>
+
+        {/* Success Message (After Signup) */}
+        {showSuccessMessage && (
+          <div className="mb-6 bg-green-50 border-2 border-green-500 rounded-xl p-4 animate-fadeIn">
+            <div className="flex items-center space-x-3">
+              <div className="flex-shrink-0">
+                <CheckCircle className="w-8 h-8 text-green-600" />
+              </div>
+              <div>
+                <h3 className="text-green-900 font-semibold text-lg">Account Created Successfully! 🎉</h3>
+                <p className="text-green-700 text-sm mt-1">You can now login with your credentials.</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Login Form */}
         <div className="bg-white rounded-2xl shadow-2xl p-8">
@@ -160,15 +200,14 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Sign Up Link - Opens in New Tab */}
-          <a
-            href="/signup"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full text-center py-3 border-2 border-indigo-600 text-indigo-600 rounded-lg font-semibold hover:bg-indigo-50 transition-all"
+          {/* Sign Up Button - Opens in New Tab */}
+          <button
+            type="button"
+            onClick={handleCreateAccount}
+            className="w-full text-center py-3 border-2 border-indigo-600 text-indigo-600 rounded-lg font-semibold hover:bg-indigo-50 transition-all"
           >
             Create Account
-          </a>
+          </button>
         </div>
 
         {/* Footer */}
