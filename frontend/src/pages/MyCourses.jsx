@@ -1,10 +1,23 @@
-import { useState } from 'react';
-import { BookOpen, Users, Clock, MapPin, Award, TrendingUp, Calendar, FileText, X, Download } from 'lucide-react';
-import { enrolledCourses } from '../data/mockData';
+import { useState } from "react";
+import {
+  BookOpen,
+  Users,
+  Clock,
+  MapPin,
+  Award,
+  TrendingUp,
+  Calendar,
+  FileText,
+  X,
+  Download,
+} from "lucide-react";
+import { enrolledCourses } from "../data/mockData";
 
 const MyCourses = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [facultyMessage, setFacultyMessage] = useState("");
 
   const openCourseDetails = (course) => {
     setSelectedCourse(course);
@@ -12,22 +25,25 @@ const MyCourses = () => {
   };
 
   // Calculate total credits
-  const totalCredits = enrolledCourses.reduce((sum, course) => sum + course.credits, 0);
+  const totalCredits = enrolledCourses.reduce(
+    (sum, course) => sum + course.credits,
+    0,
+  );
 
   // Get attendance status
   const getAttendanceStatus = (percentage) => {
-    if (percentage >= 85) return { color: 'green', text: 'Excellent' };
-    if (percentage >= 75) return { color: 'blue', text: 'Good' };
-    if (percentage >= 65) return { color: 'yellow', text: 'Warning' };
-    return { color: 'red', text: 'Critical' };
+    if (percentage >= 85) return { color: "green", text: "Excellent" };
+    if (percentage >= 75) return { color: "blue", text: "Good" };
+    if (percentage >= 65) return { color: "yellow", text: "Warning" };
+    return { color: "red", text: "Critical" };
   };
 
   // Get grade color
   const getGradeColor = (grade) => {
-    if (grade === 'A+' || grade === 'A') return 'green';
-    if (grade === 'B+' || grade === 'B') return 'blue';
-    if (grade === 'C+' || grade === 'C') return 'yellow';
-    return 'slate';
+    if (grade === "A+" || grade === "A") return "green";
+    if (grade === "B+" || grade === "B") return "blue";
+    if (grade === "C+" || grade === "C") return "yellow";
+    return "slate";
   };
 
   return (
@@ -49,7 +65,9 @@ const MyCourses = () => {
               Active
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-slate-900">{enrolledCourses.length}</h3>
+          <h3 className="text-2xl font-bold text-slate-900">
+            {enrolledCourses.length}
+          </h3>
           <p className="text-sm text-slate-600 mt-1">Total Courses</p>
         </div>
 
@@ -76,7 +94,11 @@ const MyCourses = () => {
             </span>
           </div>
           <h3 className="text-2xl font-bold text-slate-900">
-            {(enrolledCourses.reduce((sum, c) => sum + c.attendance, 0) / enrolledCourses.length).toFixed(0)}%
+            {(
+              enrolledCourses.reduce((sum, c) => sum + c.attendance, 0) /
+              enrolledCourses.length
+            ).toFixed(0)}
+            %
           </h3>
           <p className="text-sm text-slate-600 mt-1">Overall Attendance</p>
         </div>
@@ -108,10 +130,16 @@ const MyCourses = () => {
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h3 className="text-lg font-bold text-slate-900 mb-1">{course.courseName}</h3>
-                        <p className="text-sm text-slate-600">{course.courseCode}</p>
+                        <h3 className="text-lg font-bold text-slate-900 mb-1">
+                          {course.courseName}
+                        </h3>
+                        <p className="text-sm text-slate-600">
+                          {course.courseCode}
+                        </p>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold bg-${gradeColor}-100 text-${gradeColor}-700`}>
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-semibold bg-${gradeColor}-100 text-${gradeColor}-700`}
+                      >
                         Grade: {course.grade}
                       </span>
                     </div>
@@ -140,8 +168,12 @@ const MyCourses = () => {
                   <div className="lg:w-64 space-y-3">
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-slate-700">Attendance</span>
-                        <span className={`text-sm font-bold text-${attendanceStatus.color}-600`}>
+                        <span className="text-sm font-medium text-slate-700">
+                          Attendance
+                        </span>
+                        <span
+                          className={`text-sm font-bold text-${attendanceStatus.color}-600`}
+                        >
                           {course.attendance}%
                         </span>
                       </div>
@@ -151,7 +183,9 @@ const MyCourses = () => {
                           style={{ width: `${course.attendance}%` }}
                         ></div>
                       </div>
-                      <p className={`text-xs text-${attendanceStatus.color}-600 font-medium mt-1`}>
+                      <p
+                        className={`text-xs text-${attendanceStatus.color}-600 font-medium mt-1`}
+                      >
                         {attendanceStatus.text}
                       </p>
                     </div>
@@ -171,7 +205,9 @@ const MyCourses = () => {
             <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 text-white rounded-t-2xl sticky top-0 z-10">
               <div className="flex items-start justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">{selectedCourse.courseName}</h2>
+                  <h2 className="text-2xl font-bold mb-2">
+                    {selectedCourse.courseName}
+                  </h2>
                   <p className="text-purple-100">{selectedCourse.courseCode}</p>
                 </div>
                 <button
@@ -189,55 +225,79 @@ const MyCourses = () => {
               <div className="grid grid-cols-3 gap-4">
                 <div className="bg-purple-50 rounded-lg p-4 text-center">
                   <Award className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-                  <p className="text-2xl font-bold text-slate-900">{selectedCourse.credits}</p>
+                  <p className="text-2xl font-bold text-slate-900">
+                    {selectedCourse.credits}
+                  </p>
                   <p className="text-xs text-slate-600">Credits</p>
                 </div>
                 <div className="bg-green-50 rounded-lg p-4 text-center">
                   <TrendingUp className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                  <p className="text-2xl font-bold text-slate-900">{selectedCourse.attendance}%</p>
+                  <p className="text-2xl font-bold text-slate-900">
+                    {selectedCourse.attendance}%
+                  </p>
                   <p className="text-xs text-slate-600">Attendance</p>
                 </div>
-                <div className={`bg-${getGradeColor(selectedCourse.grade)}-50 rounded-lg p-4 text-center`}>
-                  <FileText className={`w-8 h-8 text-${getGradeColor(selectedCourse.grade)}-600 mx-auto mb-2`} />
-                  <p className="text-2xl font-bold text-slate-900">{selectedCourse.grade}</p>
+                <div
+                  className={`bg-${getGradeColor(selectedCourse.grade)}-50 rounded-lg p-4 text-center`}
+                >
+                  <FileText
+                    className={`w-8 h-8 text-${getGradeColor(selectedCourse.grade)}-600 mx-auto mb-2`}
+                  />
+                  <p className="text-2xl font-bold text-slate-900">
+                    {selectedCourse.grade}
+                  </p>
                   <p className="text-xs text-slate-600">Current Grade</p>
                 </div>
               </div>
 
               {/* Course Information */}
               <div>
-                <h3 className="font-semibold text-slate-900 mb-4 text-lg">Course Information</h3>
+                <h3 className="font-semibold text-slate-900 mb-4 text-lg">
+                  Course Information
+                </h3>
                 <div className="space-y-4">
                   <div className="flex items-start bg-slate-50 rounded-lg p-4">
                     <Users className="w-5 h-5 text-slate-400 mr-3 mt-0.5" />
                     <div className="flex-1">
                       <p className="text-sm text-slate-600 mb-1">Instructor</p>
-                      <p className="font-medium text-slate-900">{selectedCourse.faculty}</p>
+                      <p className="font-medium text-slate-900">
+                        {selectedCourse.faculty}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start bg-slate-50 rounded-lg p-4">
                     <Clock className="w-5 h-5 text-slate-400 mr-3 mt-0.5" />
                     <div className="flex-1">
-                      <p className="text-sm text-slate-600 mb-1">Class Schedule</p>
-                      <p className="font-medium text-slate-900">{selectedCourse.schedule}</p>
+                      <p className="text-sm text-slate-600 mb-1">
+                        Class Schedule
+                      </p>
+                      <p className="font-medium text-slate-900">
+                        {selectedCourse.schedule}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start bg-slate-50 rounded-lg p-4">
                     <MapPin className="w-5 h-5 text-slate-400 mr-3 mt-0.5" />
                     <div className="flex-1">
                       <p className="text-sm text-slate-600 mb-1">Classroom</p>
-                      <p className="font-medium text-slate-900">{selectedCourse.room}</p>
+                      <p className="font-medium text-slate-900">
+                        {selectedCourse.room}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start bg-slate-50 rounded-lg p-4">
                     <Calendar className="w-5 h-5 text-slate-400 mr-3 mt-0.5" />
                     <div className="flex-1">
-                      <p className="text-sm text-slate-600 mb-1">Enrollment Date</p>
+                      <p className="text-sm text-slate-600 mb-1">
+                        Enrollment Date
+                      </p>
                       <p className="font-medium text-slate-900">
-                        {new Date(selectedCourse.enrollmentDate).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
+                        {new Date(
+                          selectedCourse.enrollmentDate,
+                        ).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
                         })}
                       </p>
                     </div>
@@ -247,11 +307,17 @@ const MyCourses = () => {
 
               {/* Attendance Details */}
               <div>
-                <h3 className="font-semibold text-slate-900 mb-4 text-lg">Attendance Overview</h3>
+                <h3 className="font-semibold text-slate-900 mb-4 text-lg">
+                  Attendance Overview
+                </h3>
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-lg font-semibold text-slate-900">Current Attendance</span>
-                    <span className="text-3xl font-bold text-green-600">{selectedCourse.attendance}%</span>
+                    <span className="text-lg font-semibold text-slate-900">
+                      Current Attendance
+                    </span>
+                    <span className="text-3xl font-bold text-green-600">
+                      {selectedCourse.attendance}%
+                    </span>
                   </div>
                   <div className="w-full bg-white rounded-full h-3 mb-3">
                     <div
@@ -279,12 +345,57 @@ const MyCourses = () => {
                 <button className="py-3 border-2 border-purple-600 text-purple-600 rounded-lg font-semibold hover:bg-purple-50 transition-all">
                   View Materials
                 </button>
-                <button className="py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all">
+                <button
+                  onClick={() => setShowContactModal(true)}
+                  className="py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all"
+                >
                   Contact Faculty
                 </button>
               </div>
             </div>
           </div>
+
+          {/* Contact Faculty Modal */}
+          {showContactModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-xl w-full max-w-lg p-6">
+                <h2 className="text-xl font-bold mb-4">
+                  Contact {selectedCourse?.faculty}
+                </h2>
+
+                <textarea
+                  rows="6"
+                  placeholder="Write your message to the faculty..."
+                  value={facultyMessage}
+                  onChange={(e) => setFacultyMessage(e.target.value)}
+                  className="w-full border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+
+                <div className="flex justify-end gap-3 mt-4">
+                  <button
+                    onClick={() => {
+                      setShowContactModal(false);
+                      setFacultyMessage("");
+                    }}
+                    className="px-4 py-2 border rounded-lg"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      alert("Message sent to faculty!");
+                      setShowContactModal(false);
+                      setFacultyMessage("");
+                    }}
+                    className="px-4 py-2 bg-purple-600 text-white rounded-lg"
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
