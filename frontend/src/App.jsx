@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import CourseRegistration from './pages/CourseRegistration';
+import MyCourses from './pages/MyCourses';
 
 // Temporary placeholder component for other pages
 const ComingSoon = ({ pageName }) => (
@@ -54,9 +55,9 @@ function App() {
         </ProtectedRoute>
         } />
         <Route path="/my-courses" element={
-          <ProtectedRoute>
-            <Layout><ComingSoon pageName="My Courses" /></Layout>
-          </ProtectedRoute>
+        <ProtectedRoute>
+          <Layout><MyCourses /></Layout>
+        </ProtectedRoute>
         } />
         <Route path="/timetable" element={
           <ProtectedRoute>
