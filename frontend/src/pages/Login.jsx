@@ -43,15 +43,39 @@ const Login = () => {
       return;
     }
 
-    // For now, accept any login (we'll connect to backend later)
     setTimeout(() => {
-      // Store dummy auth token
-      localStorage.setItem('authToken', 'dummy-token-12345');
-      localStorage.setItem('userEmail', email);
-      
-      setLoading(false);
-      navigate('/dashboard');
-    }, 1000);
+  // For demo: Use email as roll number if it contains roll number pattern
+  // In real app, backend will return user details
+  const rollNumber = email.split('@')[0].toUpperCase(); // Extract roll from email
+  
+  // Import function at top of file
+  const getDepartmentFromRollNumber = (rollNumber) => {
+    if (!rollNumber || rollNumber.length < 5) return 'Computer Science';
+    
+    const deptCode = rollNumber.substring(3, 5).toUpperCase();
+    const deptMap = {
+      'CP': 'Computer Science',
+      'IT': 'Information Technology',
+      'EC': 'Electronics & Communication',
+      'CV': 'Civil Engineering',
+      'ME': 'Mechanical Engineering',
+      'EE': 'Electrical Engineering'
+    };
+    
+    return deptMap[deptCode] || 'Computer Science';
+  };
+  
+  const department = getDepartmentFromRollNumber(rollNumber);
+  
+  // Store auth data
+  localStorage.setItem('authToken', 'dummy-token-12345');
+  localStorage.setItem('userEmail', email);
+  localStorage.setItem('userRollNumber', rollNumber);
+  localStorage.setItem('userDepartment', department);
+  
+  setLoading(false);
+  navigate('/dashboard');
+}, 1000);
   };
 
   const handleCreateAccount = () => {
