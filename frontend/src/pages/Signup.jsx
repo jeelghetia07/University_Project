@@ -1,52 +1,68 @@
-import { useState } from 'react';
-import { Mail, Lock, User, Hash, Building2, BookOpen, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
+import { useState } from "react";
+import {
+  Mail,
+  Lock,
+  User,
+  Hash,
+  Building2,
+  BookOpen,
+  Eye,
+  EyeOff,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    studentID: '',
-    department: '',
-    semester: ''
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    studentID: "",
+    department: "",
+    semester: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSignup = (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     // Validation
-    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-      setError('Please fill in all required fields');
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      setError("Please fill in all required fields");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError("Password must be at least 6 characters");
       return;
     }
 
     if (!agreeToTerms) {
-      setError('Please agree to terms and conditions');
+      setError("Please agree to terms and conditions");
       return;
     }
 
@@ -55,17 +71,41 @@ const Signup = () => {
     // Simulate signup (we'll connect to backend later)
     setTimeout(() => {
       // Store signup info in localStorage
-      localStorage.setItem('signupEmail', formData.email);
-      localStorage.setItem('signupName', formData.name);
-      localStorage.setItem('justSignedUp', 'true');
-      
+      localStorage.setItem("signupEmail", formData.email);
+      localStorage.setItem("signupName", formData.name);
+      localStorage.setItem("justSignedUp", "true");
+
+      // Store department from student ID
+      const getDepartmentFromRollNumber = (rollNumber) => {
+        if (!rollNumber || rollNumber.length < 5)
+          return formData.department || "Computer Science";
+
+        const deptCode = rollNumber.substring(3, 5).toUpperCase();
+        const deptMap = {
+          CP: "Computer Science",
+          IT: "Information Technology",
+          EC: "Electronics & Communication",
+          CV: "Civil Engineering",
+          ME: "Mechanical Engineering",
+          EE: "Electrical Engineering",
+        };
+
+        return deptMap[deptCode] || formData.department || "Computer Science";
+      };
+
+      const detectedDepartment = getDepartmentFromRollNumber(
+        formData.studentID,
+      );
+      localStorage.setItem("signupDepartment", detectedDepartment);
+      localStorage.setItem("signupRollNumber", formData.studentID);
+
       setLoading(false);
       setSuccess(true);
-      
+
       // After 2 seconds, close this tab
       setTimeout(() => {
         window.close();
-        
+
         // Fallback: If window.close() doesn't work (security), show message
         setTimeout(() => {
           document.body.innerHTML = `
@@ -97,18 +137,19 @@ const Signup = () => {
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-12 h-12 text-green-600" />
           </div>
-          <h2 className="text-3xl font-bold text-slate-900 mb-3">Account Created!</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-3">
+            Account Created!
+          </h2>
           <p className="text-slate-600 mb-6">
-            Your account has been successfully created. This tab will close automatically.
+            Your account has been successfully created. This tab will close
+            automatically.
           </p>
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
             <p className="text-sm text-green-700">
               <strong>Email:</strong> {formData.email}
             </p>
           </div>
-          <p className="text-sm text-slate-500 mb-4">
-            Closing this tab...
-          </p>
+          <p className="text-sm text-slate-500 mb-4">Closing this tab...</p>
           <div className="mt-4">
             <div className="w-8 h-8 border-4 border-green-200 border-t-green-600 rounded-full animate-spin mx-auto"></div>
           </div>
@@ -139,8 +180,12 @@ const Signup = () => {
         {/* Signup Form */}
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-slate-900">Create Account</h2>
-            <p className="text-slate-600 mt-1">Fill in your details to get started</p>
+            <h2 className="text-2xl font-bold text-slate-900">
+              Create Account
+            </h2>
+            <p className="text-slate-600 mt-1">
+              Fill in your details to get started
+            </p>
           </div>
 
           {/* Error Message */}
@@ -223,7 +268,9 @@ const Signup = () => {
                   >
                     <option value="">Select Department</option>
                     <option value="Computer Science">Computer Science</option>
-                    <option value="Information Technology">Information Technology</option>
+                    <option value="Information Technology">
+                      Information Technology
+                    </option>
                     <option value="Electronics">Electronics</option>
                     <option value="Mechanical">Mechanical</option>
                     <option value="Civil">Civil</option>
@@ -246,8 +293,10 @@ const Signup = () => {
                     className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all appearance-none bg-white"
                   >
                     <option value="">Select Semester</option>
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(sem => (
-                      <option key={sem} value={sem}>Semester {sem}</option>
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                      <option key={sem} value={sem}>
+                        Semester {sem}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -261,7 +310,7 @@ const Signup = () => {
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
@@ -273,7 +322,11 @@ const Signup = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
                   >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -286,7 +339,7 @@ const Signup = () => {
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
-                    type={showConfirmPassword ? 'text' : 'password'}
+                    type={showConfirmPassword ? "text" : "password"}
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
@@ -298,7 +351,11 @@ const Signup = () => {
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
                   >
-                    {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showConfirmPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -313,12 +370,18 @@ const Signup = () => {
                 className="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 mt-1"
               />
               <label className="text-sm text-slate-600">
-                I agree to the{' '}
-                <a href="#" className="text-indigo-600 hover:text-indigo-700 font-medium">
+                I agree to the{" "}
+                <a
+                  href="#"
+                  className="text-indigo-600 hover:text-indigo-700 font-medium"
+                >
                   Terms and Conditions
-                </a>{' '}
-                and{' '}
-                <a href="#" className="text-indigo-600 hover:text-indigo-700 font-medium">
+                </a>{" "}
+                and{" "}
+                <a
+                  href="#"
+                  className="text-indigo-600 hover:text-indigo-700 font-medium"
+                >
                   Privacy Policy
                 </a>
               </label>
@@ -336,7 +399,7 @@ const Signup = () => {
                   <span>Creating Account...</span>
                 </span>
               ) : (
-                'Create Account'
+                "Create Account"
               )}
             </button>
           </form>
@@ -344,7 +407,7 @@ const Signup = () => {
           {/* Back to Login Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-slate-600">
-              Already have an account?{' '}
+              Already have an account?{" "}
               <button
                 type="button"
                 onClick={() => window.close()}
