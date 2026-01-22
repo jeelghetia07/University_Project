@@ -17,6 +17,9 @@ import Fees from "./pages/Fees";
 import Library from "./pages/Library";
 import Exams from "./pages/Exams";
 import Events from "./pages/Events";
+import Announcements from "./pages/Announcements";
+import Settings from "./pages/Settings";
+import Support from "./pages/Support";
 
 // Temporary placeholder component for other pages
 const ComingSoon = ({ pageName }) => (
@@ -136,7 +139,7 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <ComingSoon pageName="Announcements" />
+                <Announcements />
               </Layout>
             </ProtectedRoute>
           }
@@ -186,7 +189,7 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <ComingSoon pageName="Support" />
+                <Support />
               </Layout>
             </ProtectedRoute>
           }
@@ -196,7 +199,7 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <ComingSoon pageName="Settings" />
+                <Settings />
               </Layout>
             </ProtectedRoute>
           }
