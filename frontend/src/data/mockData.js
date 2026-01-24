@@ -18,13 +18,13 @@ export const getDepartmentFromRollNumber = (rollNumber) => {
 };
 
 export const currentUser = {
-  id: "STU2024001",
-  name: "Rahul Sharma",
-  email: "rahul.sharma@university.edu",
+  id: "24BCP001",
+  name: "Ghetia Jeel",
+  email: "24BCP001@university.edu",
   phone: "+91 98765 43210",
   department: "Computer Science",
-  semester: 5,
-  enrollmentYear: 2022,
+  semester: 4,
+  enrollmentYear: 2024,
   cgpa: 8.5,
   attendance: 85,
   profilePic: "https://ui-avatars.com/api/?name=Rahul+Sharma&background=4F46E5&color=fff&size=200"
