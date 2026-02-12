@@ -10,6 +10,9 @@ import {
   FileText,
   X,
   Download,
+  Mail,
+  Send,
+  AlertTriangle,
 } from "lucide-react";
 import { enrolledCourses } from "../data/mockData";
 
@@ -17,11 +20,58 @@ const MyCourses = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
+  const [showDropRequestModal, setShowDropRequestModal] = useState(false);
   const [facultyMessage, setFacultyMessage] = useState("");
+  const [dropRequestData, setDropRequestData] = useState({
+    courseToDropName: '',
+    courseToDropCode: '',
+    reason: '',
+    facultyEmail: ''
+  });
+  const [notification, setNotification] = useState({ show: false, type: '', message: '' });
 
   const openCourseDetails = (course) => {
     setSelectedCourse(course);
     setShowDetailsModal(true);
+  };
+
+  const openDropRequestModal = (course) => {
+    setDropRequestData({
+      courseToDropName: course.courseName,
+      courseToDropCode: course.courseCode,
+      reason: '',
+      facultyEmail: course.faculty.toLowerCase().replace(/\s+/g, '.') + '@university.edu'
+    });
+    setShowDetailsModal(false);
+    setShowDropRequestModal(true);
+  };
+
+  const handleDropRequestSubmit = (e) => {
+    e.preventDefault();
+
+    if (!dropRequestData.reason.trim()) {
+      showNotification('error', 'Please provide a reason for dropping the course!');
+      return;
+    }
+
+    // In real app, this would send email to faculty
+    console.log('Drop request submitted:', dropRequestData);
+    
+    showNotification('success', 'Drop request sent to faculty successfully!');
+    setShowDropRequestModal(false);
+    setDropRequestData({
+      courseToDropName: '',
+      courseToDropCode: '',
+      reason: '',
+      facultyEmail: ''
+    });
+  };
+
+  const showNotification = (type, message) => {
+    setNotification({ show: true, type, message });
+    setTimeout(() => {
+      setNotification({ show: false, type: '', message: '' });
+    }, 3000);
   };
 
   // Calculate total credits
@@ -53,6 +103,22 @@ const MyCourses = () => {
         <h1 className="text-3xl font-bold mb-2">My Courses</h1>
         <p className="text-purple-100">View and manage your enrolled courses</p>
       </div>
+
+      {/* Notification */}
+      {notification.show && (
+        <div className={`fixed top-6 right-6 z-50 p-4 rounded-lg shadow-xl flex items-center space-x-3 animate-fadeIn ${
+          notification.type === 'success' ? 'bg-green-50 border-2 border-green-500' : 'bg-red-50 border-2 border-red-500'
+        }`}>
+          {notification.type === 'success' ? (
+            <TrendingUp className="w-6 h-6 text-green-600" />
+          ) : (
+            <AlertTriangle className="w-6 h-6 text-red-600" />
+          )}
+          <span className={`font-medium ${notification.type === 'success' ? 'text-green-900' : 'text-red-900'}`}>
+            {notification.message}
+          </span>
+        </div>
+      )}
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -197,6 +263,88 @@ const MyCourses = () => {
         </div>
       </div>
 
+      {/* Drop Request Modal */}
+      {showDropRequestModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full">
+            <div className="bg-gradient-to-r from-red-600 to-orange-600 p-6 text-white rounded-t-2xl">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold mb-2">Request Course Drop</h2>
+                  <p className="text-red-100">Send request to faculty</p>
+                </div>
+                <button
+                  onClick={() => setShowDropRequestModal(false)}
+                  className="text-white hover:bg-white/20 rounded-lg p-2 transition-all"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+
+            <form onSubmit={handleDropRequestSubmit} className="p-6 space-y-4">
+              <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                <p className="text-sm text-orange-700 mb-2">
+                  <strong>Note:</strong> Your drop request will be sent to the course faculty for approval.
+                </p>
+                <p className="text-sm text-orange-600">
+                  Course: <strong>{dropRequestData.courseToDropName}</strong> ({dropRequestData.courseToDropCode})
+                </p>
+              </div>
+
+              {/* Faculty Email */}
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Faculty Email
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <input
+                    type="email"
+                    value={dropRequestData.facultyEmail}
+                    disabled
+                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-lg bg-slate-50 text-slate-600 outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Reason */}
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Reason for Dropping <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  value={dropRequestData.reason}
+                  onChange={(e) => setDropRequestData({ ...dropRequestData, reason: e.target.value })}
+                  placeholder="Please explain why you want to drop this course..."
+                  rows="6"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all"
+                  required
+                />
+              </div>
+
+              {/* Buttons */}
+              <div className="flex space-x-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowDropRequestModal(false)}
+                  className="flex-1 py-3 border-2 border-slate-300 text-slate-700 rounded-lg font-semibold hover:bg-slate-50 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg font-semibold hover:from-red-700 hover:to-orange-700 transition-all shadow-lg flex items-center justify-center space-x-2"
+                >
+                  <Send className="w-5 h-5" />
+                  <span>Send Request</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Course Details Modal */}
       {showDetailsModal && selectedCourse && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -340,8 +488,8 @@ const MyCourses = () => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-4 pt-4">
+              {/* Action Buttons - Now with 3 buttons */}
+              <div className="grid grid-cols-3 gap-3 pt-4">
                 <button className="py-3 border-2 border-purple-600 text-purple-600 rounded-lg font-semibold hover:bg-purple-50 transition-all">
                   View Materials
                 </button>
@@ -350,6 +498,12 @@ const MyCourses = () => {
                   className="py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all"
                 >
                   Contact Faculty
+                </button>
+                <button
+                  onClick={() => openDropRequestModal(selectedCourse)}
+                  className="py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg font-semibold hover:from-red-700 hover:to-orange-700 transition-all"
+                >
+                  Request Drop
                 </button>
               </div>
             </div>
