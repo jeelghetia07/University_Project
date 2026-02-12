@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, BookOpen, Users, Clock, MapPin, CheckCircle, AlertCircle, X, User, Mail, Hash, UserCircle, Send } from 'lucide-react';
+import { Search, BookOpen, Users, Clock, MapPin, CheckCircle, AlertCircle, X, User, Mail, Hash, UserCircle } from 'lucide-react';
 import { availableCourses, enrolledCourses as initialEnrolled, currentUser } from '../data/mockData';
 
 const CourseRegistration = () => {
@@ -9,7 +9,6 @@ const CourseRegistration = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showDropRequestModal, setShowDropRequestModal] = useState(false);
   const [notification, setNotification] = useState({ show: false, type: '', message: '' });
   
   // Registration Form Data
@@ -18,14 +17,6 @@ const CourseRegistration = () => {
     email: currentUser.email,
     rollNumber: currentUser.id,
     gender: ''
-  });
-
-  // Drop Request Form Data
-  const [dropRequestData, setDropRequestData] = useState({
-    courseToDropName: '',
-    courseToDropCode: '',
-    reason: '',
-    facultyEmail: ''
   });
 
   // Filter available courses - exclude already enrolled
@@ -99,37 +90,6 @@ const CourseRegistration = () => {
     }, 3000);
   };
 
-  const openDropRequestModal = (course) => {
-    setDropRequestData({
-      courseToDropName: course.courseName,
-      courseToDropCode: course.courseCode,
-      reason: '',
-      facultyEmail: course.faculty.toLowerCase().replace(/\s+/g, '.') + '@university.edu'
-    });
-    setShowDropRequestModal(true);
-  };
-
-  const handleDropRequestSubmit = (e) => {
-    e.preventDefault();
-
-    if (!dropRequestData.reason.trim()) {
-      showNotification('error', 'Please provide a reason for dropping the course!');
-      return;
-    }
-
-    // In real app, this would send email to faculty
-    console.log('Drop request submitted:', dropRequestData);
-    
-    showNotification('success', 'Drop request sent to faculty successfully!');
-    setShowDropRequestModal(false);
-    setDropRequestData({
-      courseToDropName: '',
-      courseToDropCode: '',
-      reason: '',
-      facultyEmail: ''
-    });
-  };
-
   const showNotification = (type, message) => {
     setNotification({ show: true, type, message });
     setTimeout(() => {
@@ -188,88 +148,6 @@ const CourseRegistration = () => {
             >
               Continue
             </button>
-          </div>
-        </div>
-      )}
-
-      {/* Drop Request Modal */}
-      {showDropRequestModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full">
-            <div className="bg-gradient-to-r from-red-600 to-orange-600 p-6 text-white rounded-t-2xl">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">Request Course Drop</h2>
-                  <p className="text-red-100">Send request to faculty</p>
-                </div>
-                <button
-                  onClick={() => setShowDropRequestModal(false)}
-                  className="text-white hover:bg-white/20 rounded-lg p-2 transition-all"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-            </div>
-
-            <form onSubmit={handleDropRequestSubmit} className="p-6 space-y-4">
-              <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                <p className="text-sm text-orange-700 mb-2">
-                  <strong>Note:</strong> Your drop request will be sent to the course faculty for approval.
-                </p>
-                <p className="text-sm text-orange-600">
-                  Course: <strong>{dropRequestData.courseToDropName}</strong> ({dropRequestData.courseToDropCode})
-                </p>
-              </div>
-
-              {/* Faculty Email */}
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Faculty Email
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-                  <input
-                    type="email"
-                    value={dropRequestData.facultyEmail}
-                    disabled
-                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-lg bg-slate-50 text-slate-600 outline-none"
-                  />
-                </div>
-              </div>
-
-              {/* Reason */}
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Reason for Dropping <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  value={dropRequestData.reason}
-                  onChange={(e) => setDropRequestData({ ...dropRequestData, reason: e.target.value })}
-                  placeholder="Please explain why you want to drop this course..."
-                  rows="6"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all"
-                  required
-                />
-              </div>
-
-              {/* Buttons */}
-              <div className="flex space-x-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowDropRequestModal(false)}
-                  className="flex-1 py-3 border-2 border-slate-300 text-slate-700 rounded-lg font-semibold hover:bg-slate-50 transition-all"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg font-semibold hover:from-red-700 hover:to-orange-700 transition-all shadow-lg flex items-center justify-center space-x-2"
-                >
-                  <Send className="w-5 h-5" />
-                  <span>Send Request</span>
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
@@ -414,67 +292,6 @@ const CourseRegistration = () => {
           </div>
         </div>
       )}
-
-      {/* My Enrolled Courses - Card Layout like Available Courses */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-slate-900">My Enrolled Courses</h2>
-          <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-semibold">
-            {enrolledCourses.length} / 6 Courses
-          </span>
-        </div>
-        
-        {enrolledCourses.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {enrolledCourses.map(course => (
-              <div key={course.courseCode} className="border-2 border-green-200 bg-green-50 rounded-xl p-6 hover:shadow-lg transition-all">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-slate-900 mb-1">{course.courseName}</h3>
-                    <p className="text-sm text-slate-600">{course.courseCode}</p>
-                  </div>
-                  <div className="flex flex-col items-end space-y-2">
-                    <span className="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                      Enrolled
-                    </span>
-                    <span className="bg-slate-700 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                      {course.credits} Credits
-                    </span>
-                  </div>
-                </div>
-
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-slate-600">
-                    <Users className="w-4 h-4 mr-2" />
-                    <span>{course.faculty}</span>
-                  </div>
-                  <div className="flex items-center text-sm text-slate-600">
-                    <Clock className="w-4 h-4 mr-2" />
-                    <span>{course.schedule}</span>
-                  </div>
-                  <div className="flex items-center text-sm text-slate-600">
-                    <MapPin className="w-4 h-4 mr-2" />
-                    <span>{course.room}</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => openDropRequestModal(course)}
-                  className="w-full py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-all flex items-center justify-center space-x-2"
-                >
-                  <Mail className="w-4 h-4" />
-                  <span>Request to Drop</span>
-                </button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-8 text-slate-500">
-            <BookOpen className="w-12 h-12 mx-auto mb-3 text-slate-300" />
-            <p>No courses enrolled yet. Browse available courses below!</p>
-          </div>
-        )}
-      </div>
 
       {/* Search Bar - Full Width */}
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
