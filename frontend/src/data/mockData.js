@@ -368,53 +368,325 @@ export const facultyData = [
   }
 ];
 
-export const libraryBooks = [
-  {
-    id: 1,
-    title: "Introduction to Algorithms",
-    author: "Thomas H. Cormen",
-    category: "Computer Science",
-    isbn: "978-0262033848",
-    available: true,
-    type: "E-Book"
-  },
-  {
-    id: 2,
-    title: "Database System Concepts",
-    author: "Abraham Silberschatz",
-    category: "Computer Science",
-    isbn: "978-0078022159",
-    available: true,
-    type: "E-Book"
-  },
-  {
-    id: 3,
-    title: "Operating System Concepts",
-    author: "Abraham Silberschatz",
-    category: "Computer Science",
-    isbn: "978-1118063330",
-    available: true,
-    type: "PDF"
-  },
-  {
-    id: 4,
-    title: "Computer Networks",
-    author: "Andrew S. Tanenbaum",
-    category: "Computer Science",
-    isbn: "978-0132126953",
-    available: true,
-    type: "E-Book"
-  },
-  {
-    id: 5,
-    title: "Software Engineering",
-    author: "Ian Sommerville",
-    category: "Computer Science",
-    isbn: "978-0133943030",
-    available: false,
-    type: "Physical"
-  }
-];
+// Course Materials - For the new Library/Materials page
+export const courseMaterials = {
+  'CS301': [
+    {
+      id: 1,
+      title: 'Introduction to Data Structures',
+      type: 'pdf',
+      uploadDate: '2025-01-15',
+      uploadedBy: 'Dr. Anjali Mehta',
+      size: '2.4 MB',
+      description: 'Comprehensive introduction to basic data structures and their real-world applications'
+    },
+    {
+      id: 2,
+      title: 'Arrays and Linked Lists - Complete Guide',
+      type: 'pdf',
+      uploadDate: '2025-01-18',
+      uploadedBy: 'Dr. Anjali Mehta',
+      size: '3.8 MB',
+      description: 'Detailed analysis of arrays and linked lists with implementation examples'
+    },
+    {
+      id: 3,
+      title: 'Trees and Graphs - Lecture Notes',
+      type: 'pdf',
+      uploadDate: '2025-01-20',
+      uploadedBy: 'Dr. Anjali Mehta',
+      size: '3.1 MB',
+      description: 'Complete notes on tree and graph data structures with traversal algorithms'
+    },
+    {
+      id: 4,
+      title: 'Sorting Algorithms Analysis',
+      type: 'pdf',
+      uploadDate: '2025-01-22',
+      uploadedBy: 'Dr. Anjali Mehta',
+      size: '2.7 MB',
+      description: 'Comparative analysis of various sorting algorithms with time complexity'
+    },
+    {
+      id: 5,
+      title: 'Hashing Techniques',
+      type: 'pdf',
+      uploadDate: '2025-01-25',
+      uploadedBy: 'Dr. Anjali Mehta',
+      size: '2.2 MB',
+      description: 'Hash tables, collision resolution, and practical applications'
+    },
+    {
+      id: 6,
+      title: 'Assignment 1 - Arrays and Linked Lists',
+      type: 'pdf',
+      uploadDate: '2025-01-10',
+      uploadedBy: 'Dr. Anjali Mehta',
+      size: '1.2 MB',
+      description: 'Practice problems and exercises on arrays and linked lists'
+    },
+    {
+      id: 7,
+      title: 'Mid-Term Question Paper 2024',
+      type: 'pdf',
+      uploadDate: '2025-01-27',
+      uploadedBy: 'Dr. Anjali Mehta',
+      size: '800 KB',
+      description: 'Previous year mid-term examination paper with solutions'
+    }
+  ],
+  'CS302': [
+    {
+      id: 8,
+      title: 'Database Fundamentals',
+      type: 'pdf',
+      uploadDate: '2025-01-12',
+      uploadedBy: 'Prof. Rajesh Kumar',
+      size: '4.5 MB',
+      description: 'Introduction to database management systems and relational model'
+    },
+    {
+      id: 9,
+      title: 'SQL Complete Reference Guide',
+      type: 'pdf',
+      uploadDate: '2025-01-16',
+      uploadedBy: 'Prof. Rajesh Kumar',
+      size: '5.2 MB',
+      description: 'Comprehensive SQL guide covering DDL, DML, DCL with examples'
+    },
+    {
+      id: 10,
+      title: 'SQL Query Practice Problems',
+      type: 'pdf',
+      uploadDate: '2025-01-18',
+      uploadedBy: 'Prof. Rajesh Kumar',
+      size: '2.8 MB',
+      description: '100+ SQL query practice problems with solutions'
+    },
+    {
+      id: 11,
+      title: 'Normalization Techniques',
+      type: 'pdf',
+      uploadDate: '2025-01-22',
+      uploadedBy: 'Prof. Rajesh Kumar',
+      size: '1.9 MB',
+      description: 'Database normalization from 1NF to BCNF with examples'
+    },
+    {
+      id: 12,
+      title: 'Transaction Management',
+      type: 'pdf',
+      uploadDate: '2025-01-24',
+      uploadedBy: 'Prof. Rajesh Kumar',
+      size: '2.3 MB',
+      description: 'ACID properties, concurrency control, and recovery techniques'
+    },
+    {
+      id: 13,
+      title: 'ER Diagram Tutorial',
+      type: 'pdf',
+      uploadDate: '2025-01-26',
+      uploadedBy: 'Prof. Rajesh Kumar',
+      size: '1.7 MB',
+      description: 'Entity-relationship modeling with case studies'
+    },
+    {
+      id: 14,
+      title: 'Assignment 1 - SQL Queries',
+      type: 'pdf',
+      uploadDate: '2025-01-14',
+      uploadedBy: 'Prof. Rajesh Kumar',
+      size: '950 KB',
+      description: 'SQL assignment with 20 query problems'
+    }
+  ],
+  'CS303': [
+    {
+      id: 15,
+      title: 'Operating Systems Concepts',
+      type: 'pdf',
+      uploadDate: '2025-01-14',
+      uploadedBy: 'Dr. Priya Patel',
+      size: '5.2 MB',
+      description: 'Core concepts of operating systems and their functions'
+    },
+    {
+      id: 16,
+      title: 'Process Management',
+      type: 'pdf',
+      uploadDate: '2025-01-17',
+      uploadedBy: 'Dr. Priya Patel',
+      size: '3.4 MB',
+      description: 'Process states, PCB, context switching, and IPC'
+    },
+    {
+      id: 17,
+      title: 'CPU Scheduling Algorithms',
+      type: 'pdf',
+      uploadDate: '2025-01-19',
+      uploadedBy: 'Dr. Priya Patel',
+      size: '2.1 MB',
+      description: 'FCFS, SJF, Priority, Round Robin scheduling with examples'
+    },
+    {
+      id: 18,
+      title: 'Memory Management Techniques',
+      type: 'pdf',
+      uploadDate: '2025-01-21',
+      uploadedBy: 'Dr. Priya Patel',
+      size: '3.6 MB',
+      description: 'Paging, segmentation, virtual memory concepts'
+    },
+    {
+      id: 19,
+      title: 'Deadlock Handling',
+      type: 'pdf',
+      uploadDate: '2025-01-23',
+      uploadedBy: 'Dr. Priya Patel',
+      size: '1.8 MB',
+      description: 'Deadlock prevention, avoidance, detection and recovery'
+    },
+    {
+      id: 20,
+      title: 'File Systems',
+      type: 'pdf',
+      uploadDate: '2025-01-25',
+      uploadedBy: 'Dr. Priya Patel',
+      size: '2.9 MB',
+      description: 'File organization, directory structures, and disk management'
+    }
+  ],
+  'CS304': [
+    {
+      id: 21,
+      title: 'Computer Networks Introduction',
+      type: 'pdf',
+      uploadDate: '2025-01-11',
+      uploadedBy: 'Prof. Amit Verma',
+      size: '3.7 MB',
+      description: 'Basics of computer networks, topologies, and protocols'
+    },
+    {
+      id: 22,
+      title: 'OSI and TCP/IP Model',
+      type: 'pdf',
+      uploadDate: '2025-01-14',
+      uploadedBy: 'Prof. Amit Verma',
+      size: '2.9 MB',
+      description: 'Layer-by-layer breakdown of OSI and TCP/IP models'
+    },
+    {
+      id: 23,
+      title: 'Data Link Layer Protocols',
+      type: 'pdf',
+      uploadDate: '2025-01-17',
+      uploadedBy: 'Prof. Amit Verma',
+      size: '2.5 MB',
+      description: 'Framing, error detection, flow control protocols'
+    },
+    {
+      id: 24,
+      title: 'IP Addressing and Subnetting',
+      type: 'pdf',
+      uploadDate: '2025-01-19',
+      uploadedBy: 'Prof. Amit Verma',
+      size: '2.1 MB',
+      description: 'IPv4, IPv6, CIDR, and subnet calculations'
+    },
+    {
+      id: 25,
+      title: 'Routing Algorithms',
+      type: 'pdf',
+      uploadDate: '2025-01-22',
+      uploadedBy: 'Prof. Amit Verma',
+      size: '2.7 MB',
+      description: 'Distance vector, link state, and path vector routing'
+    },
+    {
+      id: 26,
+      title: 'Network Security Basics',
+      type: 'pdf',
+      uploadDate: '2025-01-24',
+      uploadedBy: 'Prof. Amit Verma',
+      size: '3.2 MB',
+      description: 'Cryptography, firewalls, VPN, and security protocols'
+    },
+    {
+      id: 27,
+      title: 'Assignment 1 - Subnetting Problems',
+      type: 'pdf',
+      uploadDate: '2025-01-16',
+      uploadedBy: 'Prof. Amit Verma',
+      size: '750 KB',
+      description: 'Practice problems on IP addressing and subnetting'
+    }
+  ],
+  'CS305': [
+    {
+      id: 28,
+      title: 'Software Engineering Principles',
+      type: 'pdf',
+      uploadDate: '2025-01-13',
+      uploadedBy: 'Dr. Sneha Joshi',
+      size: '4.1 MB',
+      description: 'Fundamental principles and best practices in software engineering'
+    },
+    {
+      id: 29,
+      title: 'SDLC Models Explained',
+      type: 'pdf',
+      uploadDate: '2025-01-16',
+      uploadedBy: 'Dr. Sneha Joshi',
+      size: '2.9 MB',
+      description: 'Waterfall, Agile, Spiral, and other SDLC models compared'
+    },
+    {
+      id: 30,
+      title: 'Requirements Engineering',
+      type: 'pdf',
+      uploadDate: '2025-01-19',
+      uploadedBy: 'Dr. Sneha Joshi',
+      size: '2.4 MB',
+      description: 'Gathering, analyzing, and documenting requirements'
+    },
+    {
+      id: 31,
+      title: 'Software Design Patterns',
+      type: 'pdf',
+      uploadDate: '2025-01-21',
+      uploadedBy: 'Dr. Sneha Joshi',
+      size: '3.5 MB',
+      description: 'Creational, structural, and behavioral design patterns'
+    },
+    {
+      id: 32,
+      title: 'Software Testing Techniques',
+      type: 'pdf',
+      uploadDate: '2025-01-23',
+      uploadedBy: 'Dr. Sneha Joshi',
+      size: '2.8 MB',
+      description: 'Unit testing, integration testing, and test-driven development'
+    },
+    {
+      id: 33,
+      title: 'Project Management Basics',
+      type: 'pdf',
+      uploadDate: '2025-01-26',
+      uploadedBy: 'Dr. Sneha Joshi',
+      size: '2.2 MB',
+      description: 'Planning, scheduling, risk management, and team coordination'
+    },
+    {
+      id: 34,
+      title: 'UML Diagrams Tutorial',
+      type: 'pdf',
+      uploadDate: '2025-01-15',
+      uploadedBy: 'Dr. Sneha Joshi',
+      size: '1.9 MB',
+      description: 'Use case, class, sequence, and activity diagrams'
+    }
+  ]
+};
 
 export const examSchedule = [
   { course: "Data Structures", code: "CS301", date: "2025-03-15", time: "9:00 AM - 12:00 PM", room: "Exam Hall A" },
