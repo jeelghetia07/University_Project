@@ -14,7 +14,7 @@ import Timetable from "./pages/Timetable";
 import Profile from "./pages/Profile";
 import Grades from "./pages/Grades";
 import Fees from "./pages/Fees";
-import Library from "./pages/Library";
+import CourseMaterials from "./pages/CourseMaterials";
 import Exams from "./pages/Exams";
 import Events from "./pages/Events";
 import Announcements from "./pages/Announcements";
@@ -126,7 +126,7 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <Library />
+                <CourseMaterials />
               </Layout>
             </ProtectedRoute>
           }
