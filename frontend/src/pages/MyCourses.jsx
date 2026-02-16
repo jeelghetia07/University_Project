@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   BookOpen,
   Users,
@@ -17,6 +18,7 @@ import {
 import { enrolledCourses } from "../data/mockData";
 
 const MyCourses = () => {
+  const navigate = useNavigate();
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
@@ -46,6 +48,11 @@ const MyCourses = () => {
     setShowDropRequestModal(true);
   };
 
+  // Navigate to Course Materials with selected course
+  const handleViewMaterials = (course) => {
+    navigate('/library', { state: { selectedCourseCode: course.courseCode } });
+  };
+
   const handleDropRequestSubmit = (e) => {
     e.preventDefault();
 
@@ -54,7 +61,6 @@ const MyCourses = () => {
       return;
     }
 
-    // In real app, this would send email to faculty
     console.log('Drop request submitted:', dropRequestData);
     
     showNotification('success', 'Drop request sent to faculty successfully!');
@@ -74,13 +80,11 @@ const MyCourses = () => {
     }, 3000);
   };
 
-  // Calculate total credits
   const totalCredits = enrolledCourses.reduce(
     (sum, course) => sum + course.credits,
     0,
   );
 
-  // Get attendance status
   const getAttendanceStatus = (percentage) => {
     if (percentage >= 85) return { color: "green", text: "Excellent" };
     if (percentage >= 75) return { color: "blue", text: "Good" };
@@ -88,7 +92,6 @@ const MyCourses = () => {
     return { color: "red", text: "Critical" };
   };
 
-  // Get grade color
   const getGradeColor = (grade) => {
     if (grade === "A+" || grade === "A") return "green";
     if (grade === "B+" || grade === "B") return "blue";
@@ -192,7 +195,6 @@ const MyCourses = () => {
                 onClick={() => openCourseDetails(course)}
               >
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                  {/* Course Info */}
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-3">
                       <div>
@@ -230,7 +232,6 @@ const MyCourses = () => {
                     </div>
                   </div>
 
-                  {/* Attendance Progress */}
                   <div className="lg:w-64 space-y-3">
                     <div>
                       <div className="flex items-center justify-between mb-2">
@@ -292,7 +293,6 @@ const MyCourses = () => {
                 </p>
               </div>
 
-              {/* Faculty Email */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
                   Faculty Email
@@ -308,7 +308,6 @@ const MyCourses = () => {
                 </div>
               </div>
 
-              {/* Reason */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
                   Reason for Dropping <span className="text-red-500">*</span>
@@ -323,7 +322,6 @@ const MyCourses = () => {
                 />
               </div>
 
-              {/* Buttons */}
               <div className="flex space-x-3 pt-4">
                 <button
                   type="button"
@@ -349,7 +347,6 @@ const MyCourses = () => {
       {showDetailsModal && selectedCourse && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
             <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 text-white rounded-t-2xl sticky top-0 z-10">
               <div className="flex items-start justify-between">
                 <div>
@@ -367,9 +364,7 @@ const MyCourses = () => {
               </div>
             </div>
 
-            {/* Modal Content */}
             <div className="p-6 space-y-6">
-              {/* Quick Stats */}
               <div className="grid grid-cols-3 gap-4">
                 <div className="bg-purple-50 rounded-lg p-4 text-center">
                   <Award className="w-8 h-8 text-purple-600 mx-auto mb-2" />
@@ -398,7 +393,6 @@ const MyCourses = () => {
                 </div>
               </div>
 
-              {/* Course Information */}
               <div>
                 <h3 className="font-semibold text-slate-900 mb-4 text-lg">
                   Course Information
@@ -453,7 +447,6 @@ const MyCourses = () => {
                 </div>
               </div>
 
-              {/* Attendance Details */}
               <div>
                 <h3 className="font-semibold text-slate-900 mb-4 text-lg">
                   Attendance Overview
@@ -488,9 +481,15 @@ const MyCourses = () => {
                 </div>
               </div>
 
-              {/* Action Buttons - Now with 3 buttons */}
+              {/* Action Buttons with Navigation */}
               <div className="grid grid-cols-3 gap-3 pt-4">
-                <button className="py-3 border-2 border-purple-600 text-purple-600 rounded-lg font-semibold hover:bg-purple-50 transition-all">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleViewMaterials(selectedCourse);
+                  }}
+                  className="py-3 border-2 border-purple-600 text-purple-600 rounded-lg font-semibold hover:bg-purple-50 transition-all"
+                >
                   View Materials
                 </button>
                 <button
