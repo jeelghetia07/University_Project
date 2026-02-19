@@ -122,7 +122,7 @@ function App() {
           }
         />
         <Route
-          path="/library"
+          path="/course-materials"
           element={
             <ProtectedRoute>
               <Layout>
