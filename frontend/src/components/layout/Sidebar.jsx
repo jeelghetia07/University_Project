@@ -32,7 +32,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { name: "Grades", path: "/grades", icon: Award },
     { name: "Fees", path: "/fees", icon: DollarSign },
     { name: "Announcements", path: "/announcements", icon: Bell },
-    { name: "Course Materials", path: "/library", icon: Library },
+    { name: "Course Materials", path: "/course-materials", icon: Library },
     { name: "Exams", path: "/exams", icon: FileText },
     { name: "Events", path: "/events", icon: Sparkles },
     { name: "Support", path: "/support", icon: HelpCircle },
