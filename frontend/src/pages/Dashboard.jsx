@@ -270,14 +270,14 @@ const Dashboard = () => {
           </Link>
 
           <Link
-            to="/library"
+            to="/course-materials"
             className="flex flex-col items-center p-4 bg-gradient-to-br from-orange-50 to-red-50 rounded-lg hover:shadow-md transition-all group"
           >
             <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <BookOpen className="w-6 h-6 text-white" />
             </div>
             <span className="text-sm font-semibold text-slate-900">
-              Library
+              Course Materials
             </span>
           </Link>
         </div>
